@@ -196,3 +196,5 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .quote-source span{color:#b7c8d9}
 .bio-label,.bio-fact span{color:#596674}
 .news-date{color:#5f6975}
+
+.reader-review{position:relative;contain:layout paint}
