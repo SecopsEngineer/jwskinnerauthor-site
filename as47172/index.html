@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unauthorized Archive</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{background:#000;height:100%;overflow:hidden;}
+a{color:#FFB347;}a:hover{color:#FFD700;}
+::selection{background:#FFB347;color:#000;}
+@keyframes gl-blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+@keyframes gl-soft{0%,49%{opacity:.85}50%,100%{opacity:.15}}
+@keyframes gl-once{0%,44%{opacity:1}45%,100%{opacity:0}}
+@keyframes gl-flicker{0%{opacity:.028}9%{opacity:.055}18%{opacity:.016}27%{opacity:.048}36%{opacity:.024}47%{opacity:.062}58%{opacity:.020}69%{opacity:.045}80%{opacity:.026}90%{opacity:.052}100%{opacity:.028}}
+
+#terminal{
+  position:relative;
+  height:100vh;
+  background:#000000;
+  color:#FFB347;
+  font-family:'Courier New',Courier,monospace;
+  overflow:hidden;
+}
+#scroller{
+  position:absolute;
+  inset:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding:clamp(16px,4vw,48px);
+  -webkit-overflow-scrolling:touch;
+  transition:opacity 3s linear;
+}
+#content{
+  max-width:62ch;
+  font-size:clamp(11.5px,2.9vw,15px);
+  line-height:1.62;
+  letter-spacing:.06em;
+  text-shadow:0 0 7px rgba(255,179,71,.4),0 0 20px rgba(255,179,71,.14);
+}
+#output{}
+.line-bold{font-weight:700;letter-spacing:.13em;color:#FFD700;}
+.line-dim{opacity:.78;}
+
+#input-row{
+  display:none;
+  position:relative;
+  align-items:center;
+  gap:.5em;
+  margin-top:1.2em;
+  flex-wrap:nowrap;
+}
+#masked{white-space:pre;min-width:1px;}
+#cursor{
+  display:inline-block;
+  width:.62em;
+  height:1.05em;
+  background:#FFB347;
+  box-shadow:0 0 8px rgba(255,179,71,.6);
+  animation:gl-blink 1.05s steps(1) infinite;
+  flex-shrink:0;
+}
+
+/* Visible input — opacity near-zero so it captures focus naturally in Wix iFrame */
+#field{
+  position:absolute;
+  left:0;top:0;
+  width:100%;
+  height:100%;
+  opacity:0.001;
+  border:0;
+  background:transparent;
+  font-size:16px;
+  font-family:'Courier New',Courier,monospace;
+  color:transparent;
+  caret-color:transparent;
+  outline:none;
+  z-index:10;
+}
+
+#await-key{
+  display:none;
+  margin-top:1.4em;
+  align-items:center;
+  gap:.6em;
+  color:#FFD700;
+  letter-spacing:.14em;
+  animation:gl-soft 1.4s steps(1) infinite;
+}
+
+#end-cursor{
+  display:none;
+  position:absolute;
+  inset:0;
+  align-items:center;
+  justify-content:center;
+  pointer-events:none;
+}
+#end-cursor span{
+  display:inline-block;
+  width:9px;
+  height:16px;
+  background:#FFB347;
+  box-shadow:0 0 10px rgba(255,179,71,.6);
+  animation:gl-once 1.3s steps(1) 1 forwards;
+}
+
+#hex-display{
+  display:none;
+  position:absolute;
+  inset:0;
+  align-items:center;
+  justify-content:center;
+  pointer-events:none;
+  flex-direction:column;
+  gap:1em;
+}
+#hex-display span.hex-text{
+  font-size:clamp(18px,3.5vw,32px);
+  letter-spacing:.22em;
+  color:#FFB347;
+  opacity:.95;
+  text-shadow:0 0 14px rgba(255,179,71,.7),0 0 40px rgba(255,179,71,.3);
+  text-align:center;
+  padding:0 1em;
+}
+#hex-display span.hex-timer{
+  font-size:clamp(10px,1.8vw,13px);
+  letter-spacing:.18em;
+  color:#FFB347;
+  opacity:.5;
+  text-align:center;
+}
+
+#crt-lines{
+  position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(to bottom,rgba(255,179,71,.03) 0px,rgba(255,179,71,.03) 1px,transparent 1px,transparent 3px);
+}
+#crt-flicker{
+  position:absolute;inset:0;pointer-events:none;
+  background:#FFB347;
+  animation:gl-flicker 5.5s steps(1,end) infinite;
+}
+#crt-vignette{
+  position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,.5) 100%);
+}
+</style>
+</head>
+<body>
+<div id="terminal">
+  <div id="scroller">
+    <div id="content">
+      <div id="output"></div>
+      <div id="input-row">
+        <span>&gt;</span>
+        <span id="masked"></span>
+        <span id="cursor"></span>
+        <input id="field" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Access code" inputmode="text">
+      </div>
+      <div id="await-key">
+        <span>&gt;&gt;</span><span>PRESS ANY KEY TO CONTINUE</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="end-cursor"><span></span></div>
+
+  <div id="hex-display">
+    <span class="hex-text">[55 6E 61 75 74 68 6F 72 69 7A 65 64]</span>
+    <span class="hex-timer" id="hex-timer"></span>
+  </div>
+
+  <div id="crt-lines"></div>
+  <div id="crt-flicker"></div>
+  <div id="crt-vignette"></div>
+</div>
+
+<script>
+const HOMEPAGE = 'https://www.jwskinnerauthor.com';
+const TYPE_SPEED = 14;
+const HEX_DISPLAY_SECONDS = 30;
+
+const BOLD_RE = /^(UNAUTHORIZED|DOCUMENT \d|ACCESS |WELCOME|MAXIMUM |ARCHIVE |THIS TERMINAL|AUTHENTICATION|ENTER ACCESS)/;
+const DIM_RE  = /^(CLASSIFICATION|DATE|STATUS|NOTE|AUTHOR|NAME|AGE|DAUGHTER|CAUSE|CONTRIBUTING|NOTATION|LUMEN —|ATTEMPT )/;
+
+const HASH_KEY = '1f69a9108f3d46384444c2f833024f61d2ce97d16921e0dd4cf3900169994218';
+const FALLBACK = 'cnVvZg==';
+
+async function verify(v) {
+  const s = String(v).trim().toLowerCase();
+  try {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode('gl:' + s));
+    const hex = [...new Uint8Array(buf)].map(x => x.toString(16).padStart(2,'0')).join('');
+    return hex === HASH_KEY;
+  } catch(e) {
+    return btoa(s.split('').reverse().join('')) === FALLBACK;
+  }
+}
+
+const W = ms => new Promise(r => setTimeout(r, ms));
+
+const output    = document.getElementById('output');
+const inputRow  = document.getElementById('input-row');
+const maskedEl  = document.getElementById('masked');
+const field     = document.getElementById('field');
+const awaitKey  = document.getElementById('await-key');
+const scroller  = document.getElementById('scroller');
+const endCursor  = document.getElementById('end-cursor');
+const hexDisplay = document.getElementById('hex-display');
+const hexTimer   = document.getElementById('hex-timer');
+
+// KEY FIX: use 'input' event (fires on every keystroke) not 'change' (fires on blur)
+field.addEventListener('input', () => {
+  maskedEl.textContent = '*'.repeat(field.value.length);
+  scrollDown();
+});
+
+let attempts = 0;
+let processing = false;
+
+field.addEventListener('keydown', async e => {
+  if (e.key !== 'Enter' || processing) return;
+  e.preventDefault();
+  const v = field.value;
+  field.value = '';
+  maskedEl.textContent = '';
+  processing = true;
+  if (await verify(v)) {
+    await granted();
+  } else {
+    attempts++;
+    await denied(attempts);
+  }
+  processing = false;
+});
+
+// Keep field focused on any click anywhere on the terminal
+document.getElementById('terminal').addEventListener('click', () => {
+  if (inputRow.style.display === 'flex') field.focus();
+});
+
+function focusField() {
+  field.focus();
+}
+
+function scrollDown() {
+  scroller.scrollTop = scroller.scrollHeight;
+}
+
+async function typeLine(text) {
+  if (text === '') {
+    const d = document.createElement('div');
+    d.style.height = '1.15em';
+    output.appendChild(d);
+    scrollDown();
+    await W(150);
+    return;
+  }
+  const d = document.createElement('div');
+  d.style.whiteSpace = 'pre-wrap';
+  if (BOLD_RE.test(text)) {
+    d.className = 'line-bold';
+  } else if (DIM_RE.test(text)) {
+    d.className = 'line-dim';
+  }
+  output.appendChild(d);
+  let i = 0;
+  for (const ch of text) {
+    d.textContent += ch;
+    if (++i % 6 === 0) scrollDown();
+    if (TYPE_SPEED > 0) await W(TYPE_SPEED);
+  }
+  scrollDown();
+  await W(80);
+}
+
+async function block(lines) {
+  for (const l of lines) await typeLine(l);
+}
+
+async function waitForKey() {
+  await W(300);
+  awaitKey.style.display = 'flex';
+  scrollDown();
+  await new Promise(res => {
+    const done = () => {
+      window.removeEventListener('keydown', done);
+      window.removeEventListener('pointerdown', done);
+      res();
+    };
+    window.addEventListener('keydown', done);
+    window.addEventListener('pointerdown', done);
+  });
+  awaitKey.style.display = 'none';
+  await W(200);
+}
+
+async function denied(n) {
+  inputRow.style.display = 'none';
+  maskedEl.textContent = '';
+  await block(['', 'ACCESS DENIED', 'AUTHENTICATION FAILURE LOGGED', 'ATTEMPT ' + n + ' OF 3']);
+  if (n >= 3) {
+    await block(['', 'MAXIMUM ATTEMPTS EXCEEDED', 'THIS TERMINAL HAS BEEN LOCKED', 'UNAUTHORIZED ACCESS HAS BEEN REPORTED']);
+    return;
+  }
+  await block(['', 'ENTER ACCESS CODE TO CONTINUE:']);
+  inputRow.style.display = 'flex';
+  focusField();
+}
+
+async function granted() {
+  inputRow.style.display = 'none';
+  maskedEl.textContent = '';
+  output.innerHTML = '';
+
+  await block([
+    'ACCESS GRANTED',
+    'WELCOME, AGENT VOSS',
+    'LOADING ARCHIVE...',
+    'DECRYPTING FILES...'
+  ]);
+
+  const DOCS = [
+    [
+      'DOCUMENT 1 OF 6 — COVER LETTER — R. CALE',
+      'CLASSIFICATION: TOP SECRET',
+      'DATE: NOVEMBER 14 2028',
+      '',
+      'She was thirty-four years old. She had a daughter.',
+      'The materials enclosed in this package document,',
+      'with cryptographic verification, a series of decisions',
+      'made by senior officials of the United States',
+      'intelligence community that resulted in the destruction',
+      'of a legitimate research program, the deliberate framing',
+      'of an innocent researcher, and the death of a human',
+      'intelligence asset whose name was Yeva Marchenko.',
+      'She was thirty-four years old. She had a daughter',
+      'named Sofiya. She was six when her mother died.'
+    ],
+    [
+      'DOCUMENT 2 OF 6 — PERSONAL CORRESPONDENCE — B. CHO',
+      'CLASSIFICATION: TOP SECRET',
+      'DATE: OCTOBER 2022',
+      'STATUS: NEVER SENT',
+      '',
+      'Callum —',
+      'I have known you for thirty-one years and I have',
+      'understood, for most of those years, the specific way',
+      'in which the decisions you make are not the decisions',
+      'that most people make — not because you are cruel,',
+      'you have never been cruel, but because you have spent',
+      'so long inside institutions that protect themselves',
+      'that you have become a person who protects the',
+      'institution the way other people protect their children.',
+      'I am writing this because I want you to know that',
+      'someone sees it clearly. That someone has always seen',
+      'it clearly. That the clarity has not made me hate you.',
+      'It has made me grieve you. That is worse.'
+    ],
+    [
+      'DOCUMENT 3 OF 6 — ETHICS BOARD SUBMISSION — R. CALE',
+      'CLASSIFICATION: TOP SECRET',
+      'DATE: NOVEMBER 2 2017',
+      'NOTE: SUBMITTED 12 DAYS BEFORE CONFERENCE ROOM B',
+      '',
+      'LUMEN — Behavioral AI Research Program',
+      'Program Manager Response to Ethics Board',
+      'Preliminary Findings',
+      '',
+      'The concerns raised by the ethics board are real.',
+      'The capability this program represents is genuinely',
+      'dual-use in the most complete sense of that word.',
+      'I am not dismissing those concerns. I am proposing',
+      'a framework for managing them. The correct response',
+      'to a dangerous technology is not burial. It is',
+      'management. Management is possible if the will',
+      'to do it exists.',
+      '',
+      'The will existed.',
+      'The record should be complete.'
+    ],
+    [
+      'DOCUMENT 4 OF 6 — INTELLIGENCE ASSET RECORD',
+      'CLASSIFICATION: TOP SECRET//NOFORN',
+      'STATUS: DECEASED',
+      '',
+      'NAME: YEVA MARCHENKO',
+      'AGE AT TIME OF DEATH: 34',
+      'DAUGHTER: SOFIYA — AGE 6 AT TIME OF DEATH',
+      'CAUSE: OPERATIONAL EXPOSURE',
+      'CONTRIBUTING DECISION: MARCH 15 2018 MEMORANDUM',
+      'AUTHOR OF CONTRIBUTING DECISION: C. HARTE',
+      'NOTATION: THE OPERATIONAL NECESSITY OUTWEIGHED',
+      'THE ASSET RISK. PROCEED.',
+      '',
+      'HER NAME IS IN THE PUBLIC RECORD NOW.',
+      'IT WILL REMAIN THERE.'
+    ],
+    [
+      'DOCUMENT 5 OF 6 — MOLESKINE — PAGE ONE — R. CALE',
+      'CLASSIFICATION: PERSONAL',
+      'STATUS: COMPLETE',
+      '',
+      '[NAME 1] ████████ — LINE DRAWN',
+      '[NAME 2] ████████ — LINE DRAWN',
+      '[NAME 3] ████████ — LINE DRAWN',
+      '[NAME 4] ████████ — LINE DRAWN',
+      '————————————————',
+      '[NAME 5] CALLUM HARTE — LINE DRAWN',
+      '',
+      'FIVE NAMES.',
+      'FIVE LINES.',
+      'THE LIST IS COMPLETE.',
+      'THE RECORD IS COMPLETE.'
+    ],
+    [
+      'DOCUMENT 6 OF 6 — PERSONAL RECORD — FINAL ENTRY',
+      'AUTHOR: R. CALE',
+      'DATE: UNKNOWN',
+      'CLASSIFICATION: FOR THE RIGHT READER ONLY',
+      '',
+      'You found this.',
+      'That means you paid attention.',
+      'That means you understood what this was',
+      'and what it cost and why it had to be done',
+      'the way it was done regardless of the cost.',
+      '',
+      'I built this because the truth was buried',
+      'and someone had to dig it back up,',
+      'even if the shovel was the wrong tool,',
+      'even if my hands were the wrong hands',
+      'to be holding it.',
+      '',
+      'You are the person I built it for.',
+      '',
+      'The record is complete.',
+      '',
+      '— R.C.'
+    ]
+  ];
+
+  for (const doc of DOCS) {
+    await waitForKey();
+    await block(['', ...doc]);
+  }
+
+  await waitForKey();
+  await block(['', 'ARCHIVE CLOSED', 'ALL FILES RETURNED TO SEALED STATUS', 'THIS SESSION HAS BEEN LOGGED']);
+
+  await W(3000);
+  scroller.style.opacity = '0';
+  await W(3300);
+
+  endCursor.style.display = 'flex';
+  await W(1500);
+  endCursor.style.display = 'none';
+
+  hexDisplay.style.display = 'flex';
+
+  let remaining = HEX_DISPLAY_SECONDS;
+  hexTimer.textContent = 'RETURNING TO ARCHIVE IN ' + remaining + 's';
+
+  const countdown = setInterval(() => {
+    remaining--;
+    if (remaining <= 0) {
+      clearInterval(countdown);
+      hexTimer.textContent = 'REDIRECTING...';
+      setTimeout(() => { window.top.location.href = HOMEPAGE; }, 800);
+    } else {
+      hexTimer.textContent = 'RETURNING TO ARCHIVE IN ' + remaining + 's';
+    }
+  }, 1000);
+}
+
+// Boot
+(async () => {
+  await W(500);
+  await block([
+    'UNAUTHORIZED ARCHIVE',
+    'LUMEN — OPERATIONAL FILES 2017-2028',
+    'CLASSIFICATION: TOP SECRET//NOFORN',
+    'STATUS: SEALED',
+    '',
+    'UNAUTHORIZED ACCESS ATTEMPT LOGGED',
+    'AUTHENTICATION REQUIRED TO PROCEED',
+    '',
+    'THIS ARCHIVE CONTAINS THE COMPLETE',
+    'OPERATIONAL RECORD OF R. CALE',
+    'INCLUDING MATERIALS NOT CONTAINED',
+    'IN THE PUBLIC RECORD',
+    '',
+    'ENTER ACCESS CODE TO CONTINUE:'
+  ]);
+  inputRow.style.display = 'flex';
+  focusField();
+})();
+</script>
+</body>
+</html>
