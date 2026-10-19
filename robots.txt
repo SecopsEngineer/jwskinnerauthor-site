@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://secopsengineer.github.io/jwskinnerauthor-site/sitemap.xml
+Sitemap: https://jwskinnerauthor.com/sitemap.xml
