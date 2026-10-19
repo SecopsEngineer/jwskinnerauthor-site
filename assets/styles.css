@@ -126,3 +126,26 @@ a{color:inherit;text-decoration:none} img{display:block;max-width:100%} button,i
 .story-cta .page-kicker{color:#b7d5ef}
 .form-inline input::placeholder,.form-stack input::placeholder,.form-stack textarea::placeholder{color:#bdcadd;opacity:1}
 .legacy-manifesto .section-label{color:var(--brick)}
+
+/* Reader reviews and author profiles */
+.reviews-hero{min-height:60svh;padding-bottom:70px}
+.reviews-stage{background:#070b10}
+.reviews-intro{max-width:760px;margin-bottom:44px;color:#d3dfea}
+.reviews-intro h2{font:400 clamp(36px,4vw,60px)/1.1 var(--serif);color:var(--white);margin:0 0 18px}
+.reviews-intro p{margin:0}
+.reviews-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px;max-width:1140px}
+.reader-review{min-width:0;padding:26px;border:1px solid var(--line);background:#0a1018}
+.reader-review h3{font:400 30px/1.2 var(--serif);color:var(--white);margin:0 0 8px}
+.review-book{color:#b7c5d4;font-size:13px;margin:0 0 24px}
+.reader-review .instagram-media{background:#fff;color:#17202a;min-width:0!important;max-width:100%!important;width:100%!important;margin:0!important}
+.reader-review iframe{max-width:100%!important;min-width:0!important}
+.reader-review blockquote{padding:24px;font-size:15px}
+.review-original{margin:20px 0 0;font-size:12px;color:#bdd6ee}
+.review-original a{text-decoration:underline;text-underline-offset:4px}
+.author-profile-links{display:flex;gap:14px;flex-wrap:wrap;margin-top:32px}
+@media(max-width:1180px){
+ .nav-links{display:none;position:absolute;top:86px;left:0;right:0;background:rgba(5,7,10,.97);padding:28px 32px 36px;flex-direction:column;align-items:flex-start;border-bottom:1px solid var(--line)}
+ .nav-links.open{display:flex}.menu-btn{display:block}
+}
+@media(max-width:850px){.reviews-grid{grid-template-columns:1fr;max-width:640px}}
+@media(max-width:720px){.nav-links{top:70px}.reader-review{padding:18px}.reviews-hero{min-height:56svh;padding-bottom:60px}.author-profile-links .btn{width:100%}}
