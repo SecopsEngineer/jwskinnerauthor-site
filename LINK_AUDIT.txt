@@ -1,0 +1,35 @@
+J.W. SKINNER AUTHOR SITE V3 — LINK AUDIT
+Generated: 2026-09-08
+
+INTERNAL SITE AUDIT
+- HTML pages checked: 9
+- Internal HTML/CSS/JS/image references checked: 98
+- Broken internal references found: 0
+
+EXTERNAL LINKS USED
+Instagram
+- https://www.instagram.com/jwskinnerauthor/
+- User-provided official profile URL.
+
+Goodreads
+- https://www.goodreads.com/author/show/23584733.J_W_Skinner
+- Verified public J.W. Skinner author profile. Used instead of fragile title-search links.
+
+The Anchor and the Tide
+- Amazon: https://a.co/d/04WzeARO
+  Source: exact Amazon link already used by the current live Wix Books page.
+  Note: automated web crawlers often cannot resolve Amazon's a.co shortener, so final browser click-testing is still recommended.
+- Barnes & Noble: https://www.barnesandnoble.com/w/the-anchor-and-the-tide-j-w-skinner/1150163397?ean=9798996134007
+  Verified as the direct Barnes & Noble product page for ISBN 9798996134007.
+
+Blood on the Texas Plains
+- Amazon: https://a.co/d/0eh2jkWU
+  Source: exact Amazon link already used by the current live Wix Books page.
+  Note: automated web crawlers often cannot resolve Amazon's a.co shortener, so final browser click-testing is still recommended.
+- Barnes & Noble: https://www.barnesandnoble.com/w/blood-on-the-texas-plains-j-w-skinner/1150804168?ean=9798996134021
+  Verified as the direct Barnes & Noble product page for ISBN 9798996134021.
+
+INSTAGRAM SECTION
+The homepage now contains a curated editorial Instagram wall using locally bundled marketing artwork and quote treatment. Every card and CTA opens the official @jwskinnerauthor profile.
+
+True Instagram post/reel embeds require the exact public URL for each selected post or reel. The section is designed so those can be swapped in later without rebuilding the page or changing the visual structure.
