@@ -5,7 +5,7 @@ const menuBtn=document.querySelector('.menu-btn'),nav=document.querySelector('.n
 if(menuBtn&&nav){menuBtn.addEventListener('click',()=>{nav.classList.toggle('open');menuBtn.setAttribute('aria-expanded',nav.classList.contains('open'))})}
 const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-document.querySelectorAll('[data-preview-form]').forEach(form=>form.addEventListener('submit',e=>{e.preventDefault();const msg=form.querySelector('.success');if(msg)msg.style.display='block'}));
+// Forms use native POST submission to FormSubmit, including without JavaScript.
 
 
 // V3 premium polish: scroll progress + subtle pointer tilt (disabled for reduced motion/touch)
