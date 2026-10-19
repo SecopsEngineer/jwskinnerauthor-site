@@ -49,7 +49,7 @@ a{color:inherit;text-decoration:none} img{display:block;max-width:100%} button,i
 .author-chapter{background:#0a0d12;padding:150px 0;position:relative;overflow:hidden}.author-chapter:before{pointer-events:none;content:'J.W.';position:absolute;left:-2vw;bottom:-12vh;font:400 34vw/.7 var(--serif);color:rgba(255,255,255,.025)}.author-layout{display:grid;grid-template-columns:.85fr 1.15fr;gap:100px;align-items:center;position:relative;z-index:2}.author-frame{position:relative}.author-frame:before{content:'';position:absolute;inset:-18px 18px 18px -18px;border:1px solid rgba(145,178,211,.25)}.author-frame img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center 23%;filter:saturate(.82) contrast(1.03)}.author-copy .overline{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#86a9cd}.author-copy h2{font:400 clamp(50px,6vw,90px)/.98 var(--serif);letter-spacing:-.04em;margin:14px 0 32px}.author-copy .bio-lead{font:400 clamp(25px,2.3vw,36px)/1.38 var(--serif);color:#e0e6ed;margin-bottom:28px}.author-copy p{color:#aeb9c6;font-size:16px;max-width:700px}.author-sign{margin-top:36px;display:flex;align-items:center;gap:18px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#778696}.author-sign:before{content:'';width:64px;height:1px;background:#778696}
 
 /* Newsletter */
-.story-cta{color:var(--white);background:linear-gradient(110deg,#0c2d50,#07101c);padding:100px 0}.story-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:80px;align-items:end}.story-grid h2{color:var(--white);font:400 clamp(52px,6vw,94px)/.92 var(--serif);letter-spacing:-.05em;margin:0}.story-grid h2 span{color:#94bce2}.story-grid p{color:#d3dfea;max-width:620px}.form-inline{display:grid;grid-template-columns:1fr auto;gap:10px}.form-inline input,.form-stack input,.form-stack textarea,.form-stack select{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.18);color:#fff;min-height:54px;padding:14px 16px;outline:none}.form-stack select option{background:#f7f9fc;color:#111}.form-inline input:focus,.form-stack input:focus,.form-stack textarea:focus,.form-stack select:focus{border-color:#9ebedf}.success{display:none;color:#bad6f1;font-size:12px;margin-top:12px}.preview-note{font-size:10px;color:#bacbdd;margin-top:10px}
+.story-cta{color:var(--white);background:linear-gradient(110deg,#0c2d50,#07101c);padding:100px 0}.story-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:80px;align-items:end}.story-grid h2{color:var(--white);font:400 clamp(52px,6vw,94px)/.92 var(--serif);letter-spacing:-.05em;margin:0}.story-grid h2 span{color:#94bce2}.story-grid p{color:#d3dfea;max-width:620px}.form-inline{display:grid;grid-template-columns:1fr auto;gap:10px}.form-inline input,.form-stack input,.form-stack textarea,.form-stack select{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.18);color:#fff;min-height:54px;padding:14px 16px;outline:none}.form-stack select option{background:#f7f9fc;color:#111}.form-inline input:focus,.form-stack input:focus,.form-stack textarea:focus,.form-stack select:focus{border-color:#9ebedf}.success{display:none;color:#bad6f1;font-size:12px;margin-top:12px}.form-note{font-size:10px;color:#bacbdd;margin-top:10px}
 
 .footer{color:var(--white);background:#030405;border-top:1px solid var(--line);padding:50px 0}.footer-grid{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:end}.footer-name{font:400 38px/1 var(--serif);letter-spacing:-.03em}.footer-copy{color:#b6c2d0;font-size:11px;margin-top:10px}.press{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:#afbdcc;text-align:right}
 
@@ -149,3 +149,50 @@ a{color:inherit;text-decoration:none} img{display:block;max-width:100%} button,i
 }
 @media(max-width:850px){.reviews-grid{grid-template-columns:1fr;max-width:640px}}
 @media(max-width:720px){.nav-links{top:70px}.reader-review{padding:18px}.reviews-hero{min-height:56svh;padding-bottom:60px}.author-profile-links .btn{width:100%}}
+
+/* Production accessibility and mobile polish */
+button,.btn{cursor:pointer}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid #fff;outline-offset:3px;box-shadow:0 0 0 5px #245f96}
+.nav-links a,.footer-social a{min-height:44px;display:inline-flex;align-items:center}
+.page-hero:after,.legacy-hero:after,.world-panel.morgan:before,.hero-portrait:before,.world-art:before,.author-frame:before{pointer-events:none}
+.form-inline input,.form-stack input,.form-stack textarea,.form-stack select{min-width:0;width:100%;font-size:16px}
+.form-stack .check input{min-height:0;width:18px;height:18px;padding:0;flex:0 0 18px;accent-color:#78a9dd}
+.form-stack .check{cursor:pointer}
+.nav-links{max-height:calc(100svh - 86px);overflow-y:auto}
+.nav-links:not(.open){overflow:visible}
+.review-link-panel{display:flex;align-items:center;justify-content:space-between;gap:32px}
+.review-link-panel h2{margin-bottom:24px}
+.review-link-panel p{color:#d3dfea}
+.review-link-panel .btn{flex-shrink:0}
+.scroll-cue{color:#a7bacf}
+.author-sign{color:#acbdcf}
+.world-art .edition{color:#afc3d7}
+.morgan .world-art .edition{color:#705b4d}
+.book-no{color:#6c7580}
+.spec span:first-child{color:#626c78}
+.white .section-label{color:#50667c}
+.instagram-head .overline{color:#476b90}
+.instagram-handle span{color:#536477}
+.review-card small{color:#b2c4d7}
+.news-list,.books-editorial,.about-bio,.page-section.white,.page-section.paper{--line:rgba(20,25,32,.18)}
+.error-page .hero-actions{margin-top:32px}
+@media(max-width:1180px){.nav-links:not(.open){overflow-y:auto}.menu-btn{min-height:44px;min-width:64px}}
+@media(max-width:720px){
+ .nav-links{max-height:calc(100svh - 70px);padding-block:18px}
+ .nav-links a{width:100%}
+ .review-link-panel{flex-direction:column;align-items:flex-start}
+ .review-link-panel .btn{width:100%}
+ .instagram-handle{flex-wrap:wrap}
+ .world-art .edition{font-size:10px;letter-spacing:.16em;right:0}
+ .form-note,.footer-copy{font-size:12px}
+ .press{font-size:10px;letter-spacing:.13em}
+ .field-label,.section-label,.page-kicker{font-size:11px}
+ .display,.book-row h2,.book-detail-copy h1,.legacy-entry h3{overflow-wrap:break-word}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none}}
+
+.reader-review{overflow:hidden}
+
+.quote-source span{color:#b7c8d9}
+.bio-label,.bio-fact span{color:#596674}
+.news-date{color:#5f6975}

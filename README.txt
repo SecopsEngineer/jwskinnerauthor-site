@@ -1,26 +1,11 @@
-J.W. SKINNER AUTHOR SITE — V3 PRIVATE PREVIEW
+J.W. SKINNER AUTHOR WEBSITE
 
-Open index.html in a browser to preview.
+Static GitHub Pages site. All website images are stored in assets/.
+Forms use FormSubmit and send to JCSkinner246@gmail.com. Instagram review embeds load directly from Instagram, with ordinary post links as a fallback.
 
-WHAT CHANGED IN V3
-- Added Instagram prominently: desktop social rail, navigation link, footer links, and a full editorial "From Instagram" section on the homepage.
-- The homepage Instagram wall uses locally bundled artwork for speed/reliability and links to @jwskinnerauthor.
-- True Instagram post embeds require the exact public post/reel URLs. The section is intentionally structured so selected cards can be replaced with official Instagram embed blocks later without redesigning the page.
-- Replaced Barnes & Noble search links with verified direct product pages.
-- Replaced Amazon searches with the exact Amazon short links already used on the current live Wix site.
-- Goodreads links now point to the verified J.W. Skinner author profile instead of unreliable title-search URLs.
-- Added Open Graph/Twitter metadata and Person/Author JSON-LD with Instagram + Goodreads sameAs links.
-- Added subtle scroll progress and pointer tilt effects, while respecting reduced-motion settings.
-- Kept Wix/DNS untouched; this remains a private static preview.
+Current public base URL: https://secopsengineer.github.io/jwskinnerauthor-site/
+No Wix or DNS settings were changed.
 
-RETAILER LINKS
-The Anchor and the Tide
-Amazon: https://a.co/d/04WzeARO
-Barnes & Noble: https://www.barnesandnoble.com/w/the-anchor-and-the-tide-j-w-skinner/1150163397?ean=9798996134007
+Before switching to a custom domain, update canonical URLs, og:url, og:image, twitter:image, JSON-LD Person URLs, the sitemap and robots sitemap address, 404 asset/navigation URLs, and FormSubmit _next URLs to the new base. Preserve the form actions, subjects, names, and honeypots.
 
-Blood on the Texas Plains
-Amazon: https://a.co/d/0eh2jkWU
-Barnes & Noble: https://www.barnesandnoble.com/w/blood-on-the-texas-plains-j-w-skinner/1150804168?ean=9798996134021
-
-Instagram: https://www.instagram.com/jwskinnerauthor/
-Goodreads author: https://www.goodreads.com/author/show/23584733.J_W_Skinner
+Real reader reviews live on reviews.html. Book pages should only contain attributed, approved review text; placeholder reviews are removed.
