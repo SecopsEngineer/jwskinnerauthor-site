@@ -1,3 +1,55 @@
+// Submit in place so readers stay on the current page.
+document.querySelectorAll('form[action^="https://formsubmit.co/"]').forEach(form=>{
+  const status=document.createElement('div');
+  status.className='success';
+  status.setAttribute('role','status');
+  status.setAttribute('aria-live','polite');
+  status.style.gridColumn='1 / -1';
+  form.appendChild(status);
+  let sending=false;
+  form.addEventListener('submit',async event=>{
+    event.preventDefault();
+    if(sending || !form.reportValidity())return;
+    sending=true;
+    const button=form.querySelector('button[type="submit"]');
+    const originalLabel=button ? button.textContent : '';
+    const show=message=>{status.textContent=message;status.style.display='block'};
+    if(button){button.disabled=true;button.textContent='Sending…'}
+    form.setAttribute('aria-busy','true');
+    show('Sending your request…');
+    const controller=new AbortController();
+    const timeout=setTimeout(()=>controller.abort(),30000);
+    try{
+      const payload=Object.fromEntries(new FormData(form));
+      payload._url=window.location.href;
+      const endpoint=new URL(form.action);
+      endpoint.pathname='/ajax'+endpoint.pathname;
+      const response=await fetch(endpoint.href,{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body:JSON.stringify(payload),
+        signal:controller.signal
+      });
+      const result=await response.json();
+      if(!response.ok || !(result.success===true || result.success==='true'))throw new Error('Submission not confirmed');
+      const subject=payload._subject || '';
+      const message=subject.includes('Newsletter Signup')
+        ? 'Thank you! Your newsletter signup request has been sent.'
+        : subject.includes('ARC Reader Request')
+        ? 'Thank you! Your ARC reader request has been sent.'
+        : 'Thank you! Your message has been sent.';
+      form.reset();
+      show(message);
+    }catch(error){
+      show('We could not confirm delivery. Your entries are still here. Please try again later, or email JCSkinner246@gmail.com.');
+    }finally{
+      clearTimeout(timeout);
+      sending=false;
+      form.removeAttribute('aria-busy');
+      if(button){button.disabled=false;button.textContent=originalLabel}
+    }
+  });
+});
 
 const header=document.querySelector('.site-header');
 const onScroll=()=>header&&header.classList.toggle('scrolled',window.scrollY>18);onScroll();window.addEventListener('scroll',onScroll,{passive:true});
@@ -5,7 +57,6 @@ const menuBtn=document.querySelector('.menu-btn'),nav=document.querySelector('.n
 if(menuBtn&&nav){menuBtn.addEventListener('click',()=>{nav.classList.toggle('open');menuBtn.setAttribute('aria-expanded',nav.classList.contains('open'))})}
 const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-// Forms use native POST submission to FormSubmit, including without JavaScript.
 
 
 // V3 premium polish: scroll progress + subtle pointer tilt (disabled for reduced motion/touch)
