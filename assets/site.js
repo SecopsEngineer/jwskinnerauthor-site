@@ -41,7 +41,7 @@ document.querySelectorAll('form[action^="https://formsubmit.co/"]').forEach(form
       form.reset();
       show(message);
     }catch(error){
-      show('We could not confirm delivery. Your entries are still here. Please try again later, or email JCSkinner246@gmail.com.');
+      show('We could not confirm delivery. Your entries are still here. Please try again later.');
     }finally{
       clearTimeout(timeout);
       sending=false;
@@ -87,3 +87,4 @@ if(!reduceMotion && window.matchMedia('(pointer:fine)').matches){
     el.addEventListener('pointerleave',reset);reset();
   });
 }
+
