@@ -1,0 +1,30 @@
+/* A consistent reading scale for the About page, beneath its hero. */
+.about-page .about-bio-grid{display:block;width:min(calc(100% - 64px),980px)}
+.about-page .bio-label{border-top:0;padding-top:0;margin-bottom:24px}
+.about-page .bio-text p,
+.about-page .bio-text p:first-child,
+.about-page .career-copy p,
+.about-page .recognition-panel p,
+.about-page .author-copy p,
+.about-page .author-copy .bio-lead{
+ font:400 18px/1.8 var(--sans);letter-spacing:normal;
+ margin:0 0 24px;max-width:75ch;
+}
+.about-page .bio-text p,.about-page .bio-text p:first-child,.about-page .career-copy p{color:#272e35}
+.about-page .author-copy p,.about-page .author-copy .bio-lead,.about-page .recognition-panel p{color:#e0e6ed}
+.about-page .beyond-books .display,.about-page .author-copy h2{
+ font:400 clamp(38px,4.5vw,62px)/1.08 var(--serif);
+ letter-spacing:-.035em;margin:12px 0 30px;max-width:22ch;
+}
+.about-page .recognition-panel h3{font:400 clamp(32px,4vw,48px)/1.12 var(--serif);letter-spacing:-.025em}
+.about-page .bio-label,.about-page .section-label,.about-page .author-copy .overline{
+ font:700 10px/1.7 var(--sans);letter-spacing:.2em;text-transform:uppercase;
+}
+.about-page .about-bio,.about-page .beyond-books,.about-page .author-chapter{padding:88px 0}
+.about-page .bio-now{margin-top:40px}
+.about-page .recognition-panel p:last-child{margin-bottom:0}
+@media(max-width:720px){
+ .about-page .about-bio-grid{width:calc(100% - 34px)}
+ .about-page .about-bio,.about-page .beyond-books,.about-page .author-chapter{padding:64px 0}
+}
+
