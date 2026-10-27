@@ -1,0 +1,36 @@
+.book-detail-hero {
+  background: #07131d url('/assets/anchor-ocean.jpg') center / cover no-repeat;
+  isolation: isolate;
+  padding: 156px 0 86px;
+}
+.book-detail-hero.western {
+  background: #21180f url('/assets/blood-prairie.jpg') center / cover no-repeat;
+}
+.book-detail-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg,rgba(3,10,17,.2),rgba(3,10,17,.72) 55%,rgba(3,10,17,.87)),linear-gradient(0deg,#05090e,transparent 35%,rgba(3,10,17,.12));
+}
+.book-detail-hero.western::before {
+  background: linear-gradient(90deg,rgba(18,10,6,.15),rgba(18,10,6,.66) 55%,rgba(18,10,6,.84)),linear-gradient(0deg,#100c09,transparent 35%,rgba(18,10,6,.12));
+}
+.book-detail-grid { gap: 72px; }
+.book-detail-copy { text-shadow: 0 2px 20px rgba(0,0,0,.5); }
+.book-detail-copy .meta { color: #b9d8ed; }
+.western .book-detail-copy .meta { color: #edc394; }
+.book-detail-copy h1 { font-size: clamp(63px,7vw,104px); }
+.book-detail-copy .hook { color: #f0eee9; }
+.book-cover-preview .btn { min-width: 230px; }
+.book-detail-copy .btn, .publisher-discount { text-shadow: none; }
+@media (max-width:1050px) {
+  .book-detail-hero { background-position: 32% center; }
+  .book-detail-grid { gap: 48px; }
+  .book-detail-hero::before { background: linear-gradient(0deg,#05090e 2%,rgba(3,10,17,.86) 45%,rgba(3,10,17,.15)); }
+  .book-detail-hero.western::before { background: linear-gradient(0deg,#100c09 2%,rgba(18,10,6,.86) 45%,rgba(18,10,6,.15)); }
+}
+@media (max-width:720px) {
+  .book-detail-hero { padding: 116px 0 64px; }
+  .book-detail-copy h1 { font-size: clamp(50px,12vw,68px); }
+}
